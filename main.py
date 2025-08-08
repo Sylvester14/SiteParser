@@ -1,4 +1,4 @@
-from config import get_parser_builder, get_save_manager
+from config import get_parser, get_save_manager
 import argparse
 
 default_products_file_path = "files/products.csv"
@@ -24,7 +24,7 @@ def main():
     url = args.url
     
     save_manager = get_save_manager(file)
-    parser = get_parser_builder(save_manager)
+    parser = get_parser(save_manager)
     
     parser.parse(url, max_page=max_page, max_workers=max_workers)
     save_manager.save_file()
