@@ -27,7 +27,7 @@ class CategoryParser(Parser, ABC):
                 for page_number in range(1, page_count + 1)
             }
             
-            for future in tqdm(as_completed(futures), total=len(futures), colour="green", desc="Обработка категории"):
+            for future in tqdm(as_completed(futures), position=0, total=len(futures), colour="green", desc="Обработка категории"):
                 try:
                     future.result()
                 except Exception as e:
