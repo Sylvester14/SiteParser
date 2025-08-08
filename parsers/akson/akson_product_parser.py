@@ -31,6 +31,8 @@ class AksonProductParser(ProductParser):
         return name_element.string
     
     def _parse_features(self) -> dict: 
+        #TODO: Обработать ошибку парсинга
+        # При париснге значений элементов характеристик, если оно является ссылкой, то нет данных 
         try:
             result = {}
             features_title = self._soup.find("h2", string="Характеристики")

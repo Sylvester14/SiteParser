@@ -1,18 +1,16 @@
 from parsers import AksonParserBuilder, CategoryParser
-import json
+from saves import CsvBufferSaveManager
 
 products_file_path = "files/products.csv"
 url = "https://akson.ru/kostroma/c/kraski/"
 
-
 def main():
-    parser : CategoryParser = AksonParserBuilder().build()
-    result = parser.parse(url)
+    save_manager = CsvBufferSaveManager(products_file_path)
+    parser : CategoryParser = AksonParserBuilder(save_manager).build()
     
-    with open("files/test.json", "w", encoding="utf-8") as file:
-        file.write(json.dumps(result, ensure_ascii=False, indent=4))
+    parser.parse(url)
     
-
+    save_manager.save_file()
 
 if __name__ == "__main__":
     main()

@@ -3,5 +3,5 @@ from ..akson import AksonCategoryParser, AksonPageParser, AksonProductParser
 
 class AksonParserBuilder(ParserBuilder):
     def build(self) -> CategoryParser:
-        return AksonCategoryParser(AksonPageParser(AksonProductParser()))
+        return AksonCategoryParser(AksonPageParser(AksonProductParser()), self._save_manager)
 
