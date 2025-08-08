@@ -13,7 +13,7 @@ class PageParser(Parser, ABC):
         self._set_url(url)
         
         result = [] 
-        for product_url in self._get_products_url():
+        for product_url in tqdm(self._get_products_url(), f"Обработка страницы {page_number}"):
             product_data = self._product_parser.parse(product_url) 
             result.append(product_data)
             

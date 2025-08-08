@@ -1,6 +1,7 @@
 from .parser import Parser
 from .page_parser import PageParser
 from abc import ABC, abstractmethod
+from tqdm import tqdm
 
 class CategoryParser(Parser, ABC):
     _page_parser: PageParser
@@ -13,7 +14,7 @@ class CategoryParser(Parser, ABC):
         
         result = []
         page_count = self._get_page_count()
-        for page_number in range(1, page_count+1):
+        for page_number in tqdm(range(1, page_count+1), "Обработка категории"):
             page_url = self._get_page_url(url, page_number)
             result.extend(self._page_parser.parse(page_url, page_number))
             
