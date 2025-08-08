@@ -1,6 +1,6 @@
 import requests as r
 from bs4 import BeautifulSoup
-from parsers import ProductParser
+from parsers import AksonProductParser
 import csv
 
 products_file_path = "files/products.csv"
@@ -18,7 +18,8 @@ def main():
     src = req.text
     
     data = parse(src)
-    save_to_csv(["url", "url_image"], data, products_file_path)
+    print(data)
+    #save_to_csv(["url", "url_image", "price", "name"], data, products_file_path)
         
         
 def parse(text: str) -> list[dict]:
@@ -29,7 +30,7 @@ def parse(text: str) -> list[dict]:
     
     for link in links:
         href = domain + link.get("href")
-        result.append(ProductParser(url=href).parse())
+        result.append(AksonProductParser(url=href).parse())
         
     return result
         
@@ -40,16 +41,6 @@ def save_to_csv(columns: list[str], data: list[dict], file_path: str):
         
         writer.writeheader()
         writer.writerows(data)
-
-
-def save(text: str, file_path: str):
-    with open(file_path, mode="w", encoding="utf-8") as file:
-        file.write(text)
-
-def save_lines(text_lines: list[str], file_path: str):
-    with open(file_path, mode="w", encoding="utf-8") as file:
-        for line in text_lines:
-            file.write(line + "\n")
 
 
 

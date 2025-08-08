@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 import requests as req
 from bs4 import BeautifulSoup
 
@@ -15,7 +15,3 @@ class Parser(ABC):
         self.url = url
         text = req.get(url, HEADERS).text
         self.soup = BeautifulSoup(text, "lxml")
-    
-    @abstractmethod
-    def parse(self, url: str) -> dict:
-        pass
