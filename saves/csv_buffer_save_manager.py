@@ -2,6 +2,7 @@ from .save_manager import ISaveManager
 import json
 import csv
 import threading
+from pathlib import Path
 
 class CsvBufferSaveManager(ISaveManager):
     __file_path: str
@@ -13,9 +14,16 @@ class CsvBufferSaveManager(ISaveManager):
         self.__file_path = file_path
         self.__temp_file_path = temp_file_path
 
+        self.__create_folders(file_path)
+        self.__create_folders(temp_file_path)
+
         self.__lock = threading.Lock()
         self.__feature_headers = set()
         self.__clear_temp_file()
+        
+        
+    def __create_folders(self, file_path: str):
+        Path(file_path).parent.mkdir(parents=True, exist_ok=True)
         
     
     def __clear_temp_file(self):
