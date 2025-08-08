@@ -12,10 +12,13 @@ class CategoryParser(Parser, ABC):
         self._page_parser = page_parser
         self._save_manager = save_manager
         
-    def parse(self, url: str):
+    def parse(self, url: str, max_page: int = -1):
         self._set_url(url)
         
         page_count = self._get_page_count()
+        if(max_page != -1):
+            page_count = min(page_count, max_page)
+        
         for page_number in tqdm(range(1, page_count+1), "Обработка категории"):
             page_url = self._get_page_url(url, page_number)
             page_data = self._page_parser.parse(page_url, page_number)

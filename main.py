@@ -8,7 +8,7 @@ def main():
     save_manager = CsvBufferSaveManager(products_file_path)
     parser : CategoryParser = AksonParserBuilder(save_manager).build()
     
-    parser.parse(url)
+    parser.parse(url, max_page=3)
     
     save_manager.save_file()
 
