@@ -1,7 +1,6 @@
 from .save_manager import ISaveManager
 import json
 import csv
-from tqdm import tqdm
 import threading
 
 class CsvBufferSaveManager(ISaveManager):
@@ -45,7 +44,7 @@ class CsvBufferSaveManager(ISaveManager):
             writer.writeheader()
             
             with open(self.__temp_file_path, "r", encoding="utf-8") as temp_file:
-                for line in tqdm(temp_file, "Сохранение данных"):
+                for line in temp_file:
                     line = line.strip()
                     decoded_product : dict = json.loads(line)
                     
