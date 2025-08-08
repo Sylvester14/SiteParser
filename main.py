@@ -1,23 +1,35 @@
-from parsers import AksonParserBuilder, CategoryParser
-from saves import CsvBufferSaveManager
-import os
+from config import get_parser_builder, get_save_manager
+import argparse
 
-products_file_path = "files/products.csv"
-url = "https://akson.ru/kostroma/c/kraski/"
+default_products_file_path = "files/products.csv"
+default_url = "https://akson.ru/kostroma/c/kraski/"
 
 def main():
-    save_manager = CsvBufferSaveManager(products_file_path)
-    parser : CategoryParser = AksonParserBuilder(save_manager).build()
+    # Консольные аргументы
+    argument_parser = argparse.ArgumentParser(description="Парсинг товаров с сайта")
+    argument_parser.add_argument("--file", help="Выходной файл", default=default_products_file_path)
+    argument_parser.add_argument("--url", help="Ссылка на категорию", default=default_url)
+    argument_parser.add_argument("--max-workers", help="Максимальное число потоков", type=int)
+    argument_parser.add_argument("--max-pages", help="Максимальное число страниц", type=int)
     
-    parser.parse(url)
+    args = argument_parser.parse_args()
+    
+    # Максимальное число страниц
+    max_page = int(args.max_pages if args.max_pages is not None else -1)
+    # Максимальное число потоков
+    max_workers = int(args.max_workers if args.max_workers is not None else 10)
+    # Путь к файлу сохранения
+    file = args.file
+    # Путь к категории
+    url = args.url
+    
+    save_manager = get_save_manager(file)
+    parser = get_parser_builder(save_manager)
+    
+    parser.parse(url, max_page=max_page, max_workers=max_workers)
     save_manager.save_file()
     
-    clear_console()
-    print(f"Данные успешно записаны в файл: {products_file_path}")
-    
-    
-def clear_console():
-    os.system("cls" if os.name == "nt" else "clear")
+    print(f"Данные успешно записаны в файл: {args.file}")
 
 if __name__ == "__main__":
     main()
