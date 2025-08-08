@@ -8,10 +8,10 @@ HEADERS = {
 }
 
 class Parser(ABC):
-    soup: BeautifulSoup
-    url: str
+    _soup: BeautifulSoup
+    _url: str
     
-    def __init__(self, url: str):
-        self.url = url
+    def _set_url(self, url: str):
+        self._url = url
         text = req.get(url, HEADERS).text
-        self.soup = BeautifulSoup(text, "lxml")
+        self._soup = BeautifulSoup(text, "lxml")
