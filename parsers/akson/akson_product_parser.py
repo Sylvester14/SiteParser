@@ -31,8 +31,6 @@ class AksonProductParser(ProductParser):
         return name_element.string
     
     def _parse_features(self) -> dict: 
-        #TODO: Обработать ошибку парсинга
-        # При париснге значений элементов характеристик, если оно является ссылкой, то нет данных 
         try:
             result = {}
             features_title = self._soup.find("h2", string="Характеристики")
@@ -40,7 +38,15 @@ class AksonProductParser(ProductParser):
 
             for feature_element_name in features_container.find_all("div", class_="prop-name body-l-regular text-secondary"):
                 feature_name = feature_element_name.string
-                feature_data = feature_element_name.find_next_siblings()[1].string
+                feature_data_element = feature_element_name.find_next_siblings()[1]
+                
+                feature_data_link_elements = feature_data_element.find_all("a")
+                
+                if(feature_data_link_elements is not None):
+                    feature_data = "".join([el.string for el in feature_data_link_elements])
+                else:
+                    feature_data = feature_data_element.string       
+                
                 result[feature_name] = feature_data
                 
             return result
