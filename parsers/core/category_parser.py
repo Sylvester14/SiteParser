@@ -13,7 +13,7 @@ class CategoryParser(Parser, ABC):
         self._page_parser = page_parser
         self._save_manager = save_manager
         
-    def parse(self, url: str, max_page: int = -1, max_workers: int = 10):
+    def parse(self, url: str, max_page: int = -1, max_workers: int = 15):
         self._set_url(url)
         
         page_count = self._get_page_count()

@@ -17,7 +17,7 @@ def main():
     # Максимальное число страниц
     max_page = int(args.max_pages if args.max_pages is not None else -1)
     # Максимальное число потоков
-    max_workers = int(args.max_workers if args.max_workers is not None else 10)
+    max_workers = int(args.max_workers if args.max_workers is not None else 15)
     # Путь к файлу сохранения
     file = args.file
     # Путь к категории
